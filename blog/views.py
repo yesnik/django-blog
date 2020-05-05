@@ -2,16 +2,43 @@ from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView
 from django.core.mail import send_mail
+from taggit.models import Tag
 
 from .models import Post, Comment
 from .forms import EmailPostForm, CommentForm
 
 
 class PostListView(ListView):
-    queryset = Post.published.all()
     context_object_name = 'posts'
     paginate_by = 3
     template_name = 'blog/post/list.html'
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['tag'] = self.get_tag(self.get_slug())
+        return context
+
+    def get_queryset(self):
+        object_list = Post.published.all()
+
+        tag_slug = self.get_slug()
+
+        if tag_slug:
+            tag = self.get_tag(tag_slug)
+            object_list = object_list.filter(tags__in=[tag])
+
+        return object_list
+
+    def get_tag(self, slug):
+        return get_object_or_404(Tag, slug=slug)
+
+    def get_slug(self):
+        if 'tag_slug' in self.kwargs:
+            return self.kwargs['tag_slug']
+        else:
+            return None
+
 
 def post_detail(request, year, month, day, post):
     post = get_object_or_404(Post, slug=post, status='published', publish__year=year,
@@ -19,7 +46,7 @@ def post_detail(request, year, month, day, post):
     comments = post.comments.filter(active=True)
     new_comment = None
     comment_form = CommentForm()
-    
+
     if request.method == 'POST':
         comment_form = CommentForm(data=request.POST)
 
