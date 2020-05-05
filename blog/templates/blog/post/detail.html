@@ -14,6 +14,23 @@
     <h2>{{ total_comments }} comment{{ total_comments|pluralize }}</h2>
 {% endwith %}
 
+
+<h2>Similar posts</h2>
+
+{% if not similar_posts %}
+    <p>No similar posts.</p>
+{% endif %}
+
+<ul>
+{% for item in similar_posts %}
+    <li>
+        <a href="{% url "blog:post_detail" item.publish.year item.publish.month item.publish.day  item.slug %}">
+            {{ item.title }}
+        </a>
+    </li>    
+{% endfor %}
+</ul>
+
 {% for comment in comments %}
     <div class="comment">
         <p class="info">
