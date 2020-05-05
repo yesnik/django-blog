@@ -24,7 +24,7 @@
 <ul>
 {% for item in similar_posts %}
     <li>
-        <a href="{% url "blog:post_detail" item.publish.year item.publish.month item.publish.day  item.slug %}">
+        <a href="{{ item.get_absolute_url }}">
             {{ item.title }}
         </a>
     </li>    
