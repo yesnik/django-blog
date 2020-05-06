@@ -1,4 +1,7 @@
-message = ("Hello "
-           "Richard")
+class Animal:
+    def __init__(self):
+        self.power = 'move'
 
-print(message) #=> Hello Richard
+cat = Animal();
+print( cat.power ) #=> 'move'
+
