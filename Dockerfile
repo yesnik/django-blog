@@ -15,4 +15,10 @@ COPY . .
 RUN python -m pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-ENTRYPOINT ["./entrypoint.sh"]
+RUN mkdir $APP_HOME/staticfiles
+
+RUN echo 'Current dir================' && ls -lah
+
+COPY ./entrypoint.sh /usr/bin/entrypoint.sh
+
+ENTRYPOINT ["entrypoint.sh"]
