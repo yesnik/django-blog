@@ -17,8 +17,6 @@ RUN python -m pip install --upgrade pip && \
 
 RUN mkdir $APP_HOME/staticfiles
 
-RUN echo 'Current dir================' && ls -lah
-
 COPY ./entrypoint.sh /usr/bin/entrypoint.sh
 
 ENTRYPOINT ["entrypoint.sh"]
