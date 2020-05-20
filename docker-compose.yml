@@ -13,10 +13,11 @@ services:
     env_file:
       - ./.env
   web:
+    restart: always
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - webdata:/home/app/web
+      - ./:/home/app/web
     ports:
       - 8000:8000
     depends_on:
@@ -24,5 +25,4 @@ services:
     env_file:
       - ./.env
 volumes:
-  webdata:
   dbdata:
