@@ -12,11 +12,17 @@ Although this book was written for Django 2, it's compatible with Django 3.
 git clone git@github.com:yesnik/django-blog.git
 cd django-blog
 ```
-2. Run docker-compose
+2. Create `.env`
+```
+cp .env-example .env
+```
+3. Run docker-compose
 ```
 docker-compose up
 ```
-3. Visit site: http://127.0.0.1:8000
+4. Visit: 
+- site: http://127.0.0.1:8000
+- admin: http://127.0.0.1:8000/admin
 
 ## List of references
 
